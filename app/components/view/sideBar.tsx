@@ -1,54 +1,43 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FaHome, FaSignOutAlt, FaCalendarAlt  } from "react-icons/fa";
-import { MdFactCheck, MdSchool} from "react-icons/md";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { FaSignOutAlt } from "react-icons/fa";
+import { OpcionSideBar } from "../ui/opcionSideBar";
+import { FaRegChartBar } from "react-icons/fa6";
 
 export default function Sidebar() {
-  const pathname = usePathname();
-
-  const links = [
-    { href: "/admin", label: "Inicio", icon: <FaHome size={18} /> },
-    { href: "/admin/matricula", label: "Matricula", icon: <MdFactCheck size={18} /> },
-    { href: "/admin/notas", label: "Notas", icon: <MdSchool size={18} /> },
-    { href: "/admin/asistencia", label: "Asistencia", icon: <FaCalendarAlt size={18} /> },
-    { href: "/admin/alumnos", label: "Alumnos", icon: <FaPeopleGroup size={18} /> },
-  ];
-
   return (
-    <aside className="h-screen w-64 bg-linear-to-b from-green-600 to-[#24a9e7] text-white flex flex-col justify-between shadow-lg">
-      <div>
-        <div className="p-6 text-2xl font-bold text-center border-b border-white/20">
-          Panel de Administrador
+    <aside
+      className={`
+        md:static top-0 left-0
+        h-screen flex flex-col justify-between
+        bg-blue-600/80 shadow-lg
+        w-[50px] md:w-56
+        transition-all duration-300
+        z-50
+      `}
+    >
+      <header>
+        <h1 className="hidden md:block p-5 text-xl font-bold text-center border-b border-white/50 text-white">
+          Panel de Administración
+        </h1>
+
+        <div className="flex md:hidden p-4 justify-center border-b border-white/50 text-2xl">
+          <FaRegChartBar />
         </div>
+        <OpcionSideBar />
+      </header>
 
-        <nav className="flex flex-col mt-4">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`flex items-center gap-3 px-6 py-3 text-sm font-medium transition-colors duration-200 ${
-                pathname === link.href
-                  ? "bg-white/25 text-white"
-                  : "hover:bg-white/10"
-              }`}
-            >
-              {link.icon}
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
-
-      <div className="p-6 border-t border-white/20">
-          
-        <button className="flex items-center gap-2 w-full text-left hover:bg-white/10 px-3 py-2 rounded-md">
+      <footer className="p-4 border-t border-white/30 flex justify-center md:justify-start text-white">
+        <button className="flex items-center gap-2 w-full text-left hover:bg-white/30 rounded-md md:px-2 md:py-2 transition-all active:scale-95 transform">
           <FaSignOutAlt size={16} />
-          Cerrar sesión
+          <span
+            className={`
+              hidden md:inline
+              transition-opacity duration-200
+            `}
+          >
+            Cerrar sesión
+          </span>
         </button>
-      </div>
+      </footer>
     </aside>
   );
 }
