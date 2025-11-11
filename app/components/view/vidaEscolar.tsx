@@ -1,4 +1,4 @@
-import {dataCardsActividadesEscolares} from "../../data/dataCards"
+import {dataCardsActividadesEscolares} from "../../../data/dataCards"
 
 import { Cards } from "../ui/cards"
 import { ColeccionCards } from "./coleccionCards"

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { links } from "../../data/linksSideBar";
+import { links } from "../../../data/linksSideBar";
 import { usePathname } from "next/navigation";
 
 export function OpcionSideBar() {

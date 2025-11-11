@@ -1,4 +1,4 @@
-import  {dataCardsServiciosApoyo} from "../../data/dataCards"
+import  {dataCardsServiciosApoyo} from "../../../data/dataCards"
 
 import { Cards } from "../ui/cards";
 import { ColeccionCards } from "./coleccionCards";

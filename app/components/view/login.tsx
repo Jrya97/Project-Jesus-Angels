@@ -1,10 +1,23 @@
+"use client";
+
 import { LabelInput } from "../ui/labelInput";
 import { PrimaryButton } from "../ui/primaryButton";
+import { useLogin } from "../../../hooks/useLogin";
 
 export default function Login() {
+  const {
+    username,
+    password,
+    error,
+    handleSubmit,
+    handleUsernameChange,
+    handlePasswordChange,
+  } = useLogin();
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-transparent">
       <form
+        onSubmit={handleSubmit}
         className="
           flex flex-col items-center gap-6
           w-full max-w-lg
@@ -23,9 +36,11 @@ export default function Login() {
         <div className="w-full flex flex-col gap-5">
           <LabelInput
             legend="Usuario"
-            placeholder="Ej: usuario123"
+            placeholder="Ej: admin"
             required
             className="text-lg px-4 rounded-lg"
+            value={username}
+            onChange={handleUsernameChange}
           />
           <LabelInput
             legend="Contraseña"
@@ -33,8 +48,14 @@ export default function Login() {
             required
             type="password"
             className="text-lg px-4 rounded-lg"
+            value={password}
+            onChange={handlePasswordChange}
           />
         </div>
+
+        {error && (
+          <p className="text-red-600 font-semibold text-sm mt-2">{error}</p>
+        )}
 
         <PrimaryButton
           type="submit"

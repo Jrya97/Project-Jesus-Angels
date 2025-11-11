@@ -1,6 +1,6 @@
 import { BanerMatricula } from "../components/view/banerMatricula";
 import { ImagenesCarrusel } from "../components/ui/imagenesCarrusel";
-import { BannerCarrusel } from "../data/banerCarrusel";
+import { BannerCarrusel } from "../../data/banerCarrusel";
 
 export default function Home() {
   return (

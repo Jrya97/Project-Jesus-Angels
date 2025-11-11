@@ -1,8 +1,13 @@
+"use client";
+
 import { FaSignOutAlt } from "react-icons/fa";
 import { OpcionSideBar } from "../ui/opcionSideBar";
 import { FaRegChartBar } from "react-icons/fa6";
+import { useLogout } from "../../../hooks/useLogout";
 
 export default function Sidebar() {
+  const { handleLogout } = useLogout();
+
   return (
     <aside
       className={`
@@ -19,14 +24,18 @@ export default function Sidebar() {
           Panel de Administración
         </h1>
 
-        <div className="flex md:hidden p-4 justify-center border-b border-white/50 text-2xl">
+        <div className="flex md:hidden p-4 justify-center border-b border-white/50 text-2xl text-white">
           <FaRegChartBar />
         </div>
+
         <OpcionSideBar />
       </header>
 
       <footer className="p-4 border-t border-white/30 flex justify-center md:justify-start text-white">
-        <button className="flex items-center gap-2 w-full text-left hover:bg-white/30 rounded-md md:px-2 md:py-2 transition-all active:scale-95 transform">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 w-full text-left hover:bg-white/30 rounded-md md:px-2 md:py-2 transition-all active:scale-95 transform"
+        >
           <FaSignOutAlt size={16} />
           <span
             className={`

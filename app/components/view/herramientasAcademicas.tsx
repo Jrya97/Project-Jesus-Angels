@@ -1,4 +1,4 @@
-import {dataCardsHerramientas} from "../../data/dataCards"
+import {dataCardsHerramientas} from "../../../data/dataCards"
 
 import { Cards } from "../ui/cards"
 import { ColeccionCards } from "./coleccionCards"
