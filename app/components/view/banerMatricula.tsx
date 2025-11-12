@@ -46,7 +46,7 @@ export function BanerMatricula() {
         href="https://wa.me/51987197782?text=¡Hola!%0AQuiero%20más%20información%20sobre%20la%20matricula%20del%202026."
         target="_blank"
         rel="noopener noreferrer"
-        className="sm:px-6 md:px-8 sm:py-3 text-base sm:text-lg md:text-xl"
+        className="sm:px-6 md:px-8 sm:py-3 text-base sm:text-lg md:text-xl z-20"
       >
         ⭢ Más Información ⭠
       </PrimaryLink>
