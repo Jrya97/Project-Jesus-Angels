@@ -1,6 +1,7 @@
 import { SecondLink } from "@/app/components/ui/SecondButton";
+import FormAlumno from "@/app/components/view/formularioAlumno";
 
-export default function MatriculaPage() {
+export default function NuevoAlumnoPage() {
   return (
     <section className="w-full h-full relative flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <video
@@ -16,23 +17,20 @@ export default function MatriculaPage() {
       <div className="absolute top-0 left-0 w-full h-full bg-white/50 -z-10"></div>
 
       <article className="w-full max-w-4xl relative z-10">
+        <SecondLink className="max-w-2xs" href="/admin/matricula">
+          Regresar al menú
+        </SecondLink>
         <div className="bg-white/55 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
           <div className="mb-6 sm:mb-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 text-center">
-              Matrícula Administrativa
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+              Nuevo Alumno
             </h3>
-            <div className="flex flex-col sm:flex-row gap-2 justify-between items-center mt">
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevoapoderado">
-                Nuevo Apoderado
-              </SecondLink>
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevoalumno">
-                Nuevo Alumno
-              </SecondLink>
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevamatricula">
-                Nueva Matrícula
-              </SecondLink>
-            </div>
+            <p className="text-gray-600 text-sm">
+              Complete la información del alumno.
+            </p>
           </div>
+
+          <FormAlumno />
         </div>
       </article>
     </section>

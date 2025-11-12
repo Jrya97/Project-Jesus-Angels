@@ -1,8 +1,8 @@
-import React from 'react'
+import ListaAlumnos from '@/app/components/view/listaAlumnos'
 
 export default function AlumnosPage() {
   return (
-    <main className="w-full h-full min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <section className="relative min-h-screen flex flex-col items-center justify-start p-6">
       <video
         autoPlay
         loop
@@ -12,8 +12,10 @@ export default function AlumnosPage() {
       >
         <source src="/Fondo-Admin.mp4" type="video/mp4" />
       </video>
+
       <div className="absolute top-0 left-0 w-full h-full bg-white/50 -z-10"></div>
-    <div>AlumnosPage</div>
-    </main>
+
+      <ListaAlumnos />
+    </section>
   )
 }

@@ -1,6 +1,6 @@
 export default function AdminHome() {
   return (
-    <main className="w-full h-full min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <section className="w-full h-full min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <video
         autoPlay
         loop
@@ -15,8 +15,7 @@ export default function AdminHome() {
         <h1 className="text-4xl font-bold mb-4 bg-white/50 rounded-lg p-8" >
           Bienvenido al Panel Administrativo
         </h1>
-        <p>Selecciona una opción del menú lateral para comenzar.</p>
       </div>
-    </main>
+    </section>
   );
 }
