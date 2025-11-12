@@ -5,13 +5,9 @@ import { useFormApoderado } from "@/hooks/useFromApoderado";
 import { InputFormAdmin } from "../ui/labelFormularioAdmin";
 import { SecondButton } from "../ui/SecondButton";
 
-export default function FormApoderado({
-  onSuccess,
-}: {
-  onSuccess: () => void;
-}) {
+export default function FormApoderado() {
   const { formApoderado, handleChange, handleSubmit } =
-    useFormApoderado(onSuccess);
+    useFormApoderado();
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
@@ -50,7 +46,7 @@ export default function FormApoderado({
       <InputFormAdmin
         label="Correo Electrónico"
         name="correo_electronico"
-        placeholder="orreo@ejemplo.com"
+        placeholder="JesusAngels@ejemplo.com"
         value={formApoderado.correo_electronico}
         onChange={handleChange}
         required

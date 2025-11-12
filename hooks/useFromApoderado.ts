@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Apoderado } from '@/types/types';
 
-export function useFormApoderado(onSuccess: () => void) {
+export function useFormApoderado() {
   const [formApoderado, setFormApoderado] = useState<Apoderado>({
     nombre: '',
     dni: '',
@@ -24,7 +24,6 @@ export function useFormApoderado(onSuccess: () => void) {
     });
     if (!res.ok) {
       alert('Apoderado registrado');
-      onSuccess();
     } else {
       alert('Error al registrar apoderado');
     }

@@ -6,7 +6,7 @@ interface InputFormAdminProps {
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   icon: ReactNode;
   autoComplete?: string;
