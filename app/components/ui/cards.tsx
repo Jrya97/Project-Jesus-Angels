@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type {CardsProps} from "../../types/types";
+import type {CardsProps} from "@/types/types";
 
 
 
