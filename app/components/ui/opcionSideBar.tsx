@@ -23,8 +23,8 @@ export function OpcionSideBar() {
             href={link.href}
             className={`
               flex items-center gap-3 px-3 py-3 text-sm font-medium
-              transition-all duration-200
-              ${isActive ? "bg-white/25 text-white" : "hover:bg-white/30"}
+              transition-all duration-200 text-white
+              ${isActive ? "bg-white/25 " : "hover:bg-white/30"}
               justify-center md:justify-start active:scale-90 transform
             `}
           >
