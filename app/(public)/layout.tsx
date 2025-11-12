@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     title: "Colegio Jesus Angeles",
     description:
       "Somos un Colegio que ofrece una educación integral basada en el amor, los valores y la excelencia académica.",
-    url: "https://project-jesus-angels-snd3.vercel.app/",
+    url: "https://project-jesus-angels.vercel.app/",
     siteName: "Colegio Jesus Angeles",
     images: [
       {
-        url: "https://project-jesus-angels-snd3.vercel.app/Jesus_Angels.png",
+        url: "https://project-jesus-angels.vercel.app/Jesus_Angels.png",
         width: 1200,
         height: 630,
         alt: "Colegio Jesus Angeles",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Colegio Jesus Angeles",
     description:
       "Somos un Colegio que ofrece una educación integral basada en el amor, los valores y la excelencia académica.",
-    images: ["https://project-jesus-angels-snd3.vercel.app/Jesus_Angels.png"],
+    images: ["https://project-jesus-angels.vercel.app/Jesus_Angels.png"],
   },
 };
 
