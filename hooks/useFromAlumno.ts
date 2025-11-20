@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { Alumno, Apoderado } from '@/types/types';
+import { createHandleChange } from '@/utils/formHelpers';
 
 
 export function useFormAlumno() {
@@ -22,12 +23,7 @@ export function useFormAlumno() {
       .catch(err => console.error('Error al cargar apoderados:', err));
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormAlumno(prev => ({ ...prev, [name]: value }));
-  };
+  const handleChange = createHandleChange(setFormAlumno);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

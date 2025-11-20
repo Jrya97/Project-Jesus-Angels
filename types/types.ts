@@ -5,15 +5,16 @@ export type CardsProps = {
 };
 
 export type Apoderado = {
-  id_apoderado?: string;
+  id_apoderado: string;
   nombre: string;
   dni: string;
   telefono: string;
   correo_electronico: string;
+  creado_en: string;
 };
 
 export type Alumno = {
-  id_alumno?: string;
+  id_alumno: string;
   nombre: string;
   apellido: string;
   dni: string;
