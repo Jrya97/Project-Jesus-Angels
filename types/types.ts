@@ -10,6 +10,7 @@ export type Apoderado = {
   dni: string;
   telefono: string;
   correo_electronico: string;
+  creado_en?: string;
 };
 
 export type Alumno = {

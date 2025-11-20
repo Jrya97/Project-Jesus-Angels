@@ -10,7 +10,7 @@ export default function ListaAlumnos() {
   const { alumno } = useFormMatricula();
 
   return (
-    <article className="relative z-10 w-full flex flex-col items-center gap-8 py-10">
+    <article className="relative z-10 w-full flex flex-col items-center gap-8 py-10 px-4 md:px-8">
       <section className="w-full max-w-md bg-white/60 rounded-md py-2 px-2 shadow-xl">
         <InputFormAdmin
           label="Buscar Alumno"

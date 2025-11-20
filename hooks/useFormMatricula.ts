@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { Alumno, Grado, Matricula } from '@/types/types';
+import { createHandleChange } from '@/utils/formHelpers';
 
 
 export function useFormMatricula() {
@@ -29,12 +30,7 @@ export function useFormMatricula() {
       .catch(err => console.error('Error al cargar grado:', err));
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormMatricula(prev => ({ ...prev, [name]: value }));
-  };
+  const handleChange = createHandleChange(setFormMatricula);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

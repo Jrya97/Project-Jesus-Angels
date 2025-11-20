@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Apoderado } from '@/types/types';
+import { createHandleChange } from '@/utils/formHelpers';
 
 export function useFormApoderado() {
   const [formApoderado, setFormApoderado] = useState<Apoderado>({
@@ -10,10 +11,7 @@ export function useFormApoderado() {
     correo_electronico: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormApoderado(prev => ({ ...prev, [name]: value }));
-  };
+  const handleChange = createHandleChange(setFormApoderado);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

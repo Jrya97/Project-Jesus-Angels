@@ -2,39 +2,24 @@ import { SecondLink } from "@/app/components/ui/SecondButton";
 
 export default function MatriculaPage() {
   return (
-    <section className="w-full h-full relative flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
-      >
-        <source src="/Fondo-Admin.mp4" type="video/mp4" />
-      </video>
-
-      <div className="absolute top-0 left-0 w-full h-full bg-white/50 -z-10"></div>
-
+    <div className="w-full min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <article className="w-full max-w-4xl relative z-10">
         <div className="bg-white/55 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
           <div className="mb-6 sm:mb-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 text-center">
-              Matrícula Administrativa
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-2 justify-between items-center mt">
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevoapoderado">
-                Nuevo Apoderado
-              </SecondLink>
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevoalumno">
-                Nuevo Alumno
-              </SecondLink>
-              <SecondLink className="max-w-2xs" href="/admin/matricula/nuevamatricula">
-                Nueva Matrícula
-              </SecondLink>
-            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+              Matrícula
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600">
+              Seleccione una opción para continuar
+            </p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <SecondLink href="/admin/matricula/nuevoalumno">Registrar Nuevo Alumno</SecondLink>
+            <SecondLink href="/admin/matricula/nuevoapoderado">Registrar Nuevo Apoderado</SecondLink>
+            <SecondLink href="/admin/matricula/nuevamatricula">Crear Nueva Matrícula</SecondLink>
           </div>
         </div>
       </article>
-    </section>
+    </div>
   );
 }

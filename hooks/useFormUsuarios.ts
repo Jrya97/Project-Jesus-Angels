@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Usuario } from '@/types/types';
+import {createHandleChange} from '@/utils/formHelpers';
 
 export function useFormUsuario() {
   const [formUsuario, setFormUsuario] = useState<Usuario>({
@@ -11,10 +12,7 @@ export function useFormUsuario() {
     rol: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormUsuario(prev => ({ ...prev, [name]: value }));
-  };
+  const handleChange = createHandleChange(setFormUsuario);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
