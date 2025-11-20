@@ -5,7 +5,7 @@ export type CardsProps = {
 };
 
 export type Apoderado = {
-  id_apoderado: string;
+  id_apoderado?: string;
   nombre: string;
   dni: string;
   telefono: string;
@@ -14,7 +14,7 @@ export type Apoderado = {
 };
 
 export type Alumno = {
-  id_alumno: string;
+  id_alumno?: string;
   nombre: string;
   apellido: string;
   dni: string;
