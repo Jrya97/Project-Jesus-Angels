@@ -3,32 +3,51 @@
 import { useState, useEffect } from 'react';
 import type { Alumno, Grado, Matricula } from '@/types/types';
 import { createHandleChange } from '@/utils/formHelpers';
+import { getAlumnos, getGrados } from '@/utils/getFetch';
 
 
 export function useFormMatricula() {
-  const [alumno, setAlumno] = useState<Alumno[]>([]);
-  const [grado, setGrado] = useState<Grado[]>([]);
+  const [alumnos, setAlumno] = useState<Alumno[]>([]);
+  const [grados, setGrado] = useState<Grado[]>([]);
   const [formMatricula, setFormMatricula] = useState<Matricula>({
-    id_alumno: '',
-    id_grado: '',
+    idAlumno: 0,
+    idGrado: 0,
     anio_lectivo: '',
-    fecha_matricula:new Date().toLocaleDateString(),
+    fecha_matricula: new Date().toLocaleDateString(),
     estado: 'ACTIVO'
   });
 
   useEffect(() => {
-    fetch('/api/alumno')
-      .then(res => res.json())
-      .then(data => setAlumno(data))
-      .catch(err => console.error('Error al cargar alumno:', err));
+    const fetchAlumnos = async () => {
+      try {
+        const dataAlumnos = await getAlumnos();
+        const dataGrados = await getGrados();
+
+        if (dataAlumnos && Array.isArray(dataAlumnos)) {
+          const alumnosOrdenados = [...dataAlumnos].sort((a, b) => {
+            const idA = a.idAlumno || (a as any).id_alumno || 0;
+            const idB = b.idAlumno || (b as any).id_alumno || 0;
+            return idA - idB;
+          });
+          setAlumno(alumnosOrdenados);
+        } else {
+          setAlumno([]);
+        }
+
+        if (dataGrados && Array.isArray(dataGrados)) {
+          setGrado(dataGrados);
+        } else {
+          setGrado([]);
+        }
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+        setAlumno([]);
+        setGrado([]);
+      }
+    };
+    fetchAlumnos();
   }, []);
 
-    useEffect(() => {
-    fetch('/api/grado')
-      .then(res => res.json())
-      .then(data => setGrado(data))
-      .catch(err => console.error('Error al cargar grado:', err));
-  }, []);
 
   const handleChange = createHandleChange(setFormMatricula);
 
@@ -54,8 +73,8 @@ export function useFormMatricula() {
 
   return {
     formMatricula,
-    alumno,
-    grado,
+    alumnos,
+    grados,
     handleChange,
     handleSubmit,
   };

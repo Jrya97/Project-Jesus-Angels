@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { Usuario } from '@/types/types';
-import {createHandleChange} from '@/utils/formHelpers';
+import { createHandleChange } from '@/utils/formHelpers';
+import { getPerfiles } from '@/utils/getFetch';
 
 export function useFormUsuario() {
   const [formUsuario, setFormUsuario] = useState<Usuario>({

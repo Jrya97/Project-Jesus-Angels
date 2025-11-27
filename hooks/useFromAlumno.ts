@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { Alumno, Apoderado } from '@/types/types';
 import { createHandleChange } from '@/utils/formHelpers';
-
+import { getApoderados } from '@/utils/getFetch';
 
 export function useFormAlumno() {
   const [apoderados, setApoderados] = useState<Apoderado[]>([]);
@@ -11,16 +11,17 @@ export function useFormAlumno() {
     nombre: '',
     apellido: '',
     dni: '',
-    fecha_nacimiento: '',
+    fechaNacimiento: '',
     direccion: '',
-    id_apoderado: '',
+    idApoderado: 0
   });
 
   useEffect(() => {
-    fetch('/api/apoderado')
-      .then(res => res.json())
-      .then(data => setApoderados(data))
-      .catch(err => console.error('Error al cargar apoderados:', err));
+    const fetchApoderados = async () => {
+      const dataApoderados = await getApoderados();
+      setApoderados(dataApoderados);
+    };
+    fetchApoderados();
   }, []);
 
   const handleChange = createHandleChange(setFormAlumno);
@@ -28,7 +29,7 @@ export function useFormAlumno() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/alumno', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/alumnos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formAlumno),

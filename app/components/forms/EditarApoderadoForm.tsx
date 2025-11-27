@@ -67,7 +67,7 @@ export const EditarApoderadoForm = ({ apoderado, onSave, onCancel }: EditarApode
                         label="Correo Electrónico"
                         name="correo_electronico"
                         type="email"
-                        value={formData.correo_electronico}
+                        value={formData.correoElectronico}
                         onChange={handleChange}
                         required
                         icon={<FaEnvelope />}

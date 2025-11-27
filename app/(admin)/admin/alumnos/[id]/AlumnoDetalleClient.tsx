@@ -1,6 +1,8 @@
 "use client";
 
-import { AlumnosFake, ApoderadosFake } from "@/data/fakeData";
+import { useState, useEffect } from "react";
+import { getAlumnoById } from "@/utils/getFetch";
+import type { Alumno, Apoderado } from "@/types/types";
 import {
     FaUser,
     FaIdCard,
@@ -30,11 +32,34 @@ interface AlumnoDetalleClientProps {
 }
 
 export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
-    const initialAlumno = AlumnosFake.find((a) => a.id_alumno === id);
-    const initialApoderado = ApoderadosFake.find((a) => a.id_apoderado === initialAlumno?.id_apoderado);
-
+    const [initialAlumno, setInitialAlumno] = useState<Alumno | undefined>(undefined);
+    const [initialApoderado, setInitialApoderado] = useState<Apoderado | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(true);
     const { alumnoData, handleSave: handleSaveAlumno } = useEditAlumno(initialAlumno);
     const { apoderadoData, handleSave: handleSaveApoderado } = useEditApoderado(initialApoderado);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true);
+                const alumnoId = Number(id);
+
+                const alumno = await getAlumnoById(alumnoId);
+                setInitialAlumno(alumno || undefined);
+
+                if (alumno?.apoderado) {
+                    setInitialApoderado(alumno.apoderado);
+                }
+            } catch (error) {
+                console.error('Error cargando datos del alumno:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
 
     const alumnoModal = useModal();
     const apoderadoModal = useModal();
@@ -52,6 +77,17 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
             if (success) apoderadoModal.closeModal();
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="w-full max-w-5xl mx-auto relative z-10 p-4 md:p-8 flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-lg">Cargando información del alumno...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!alumnoData) {
         return <FallaAlumno id={id} />
@@ -90,8 +126,8 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                     >
                         <InformacionItem icon={FaIdCard} label="DNI" value={alumnoData.dni} />
                         <InformacionItem icon={FaMapMarkerAlt} label="Dirección" value={alumnoData.direccion} />
-                        <InformacionItem icon={FaCalendarAlt} label="Fecha de Nacimiento" value={alumnoData.fecha_nacimiento} />
-                        <InformacionItem icon={FaBook} label="Grado" value={alumnoData.id_apoderado} />
+                        <InformacionItem icon={FaCalendarAlt} label="Fecha de Nacimiento" value={alumnoData.fechaNacimiento} />
+                        <InformacionItem icon={FaBook} label="ID Apoderado" value={String(initialApoderado?.idApoderado)} />
                     </InformacionCard>
 
                     <InformacionCard
@@ -114,7 +150,7 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                                 <InformacionItem icon={FaUser} label="Nombre Completo" value={apoderadoData.nombre} />
                                 <InformacionItem icon={FaIdCard} label="DNI" value={apoderadoData.dni} />
                                 <InformacionItem icon={FaPhone} label="Teléfono" value={apoderadoData.telefono} />
-                                <InformacionItem icon={FaEnvelope} label="Correo Electrónico" value={apoderadoData.correo_electronico} breakAll />
+                                <InformacionItem icon={FaEnvelope} label="Correo Electrónico" value={apoderadoData.correoElectronico} breakAll />
                             </>
                         ) : (
                             <EstadoVacio icon={FaInbox} message="No hay información del apoderado disponible" />
