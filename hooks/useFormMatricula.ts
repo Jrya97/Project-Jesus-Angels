@@ -3,10 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { Alumno, Grado, Matricula } from '@/types/types';
 import { createHandleChange } from '@/utils/formHelpers';
-<<<<<<< HEAD
-=======
 import { getAlumnos, getGrados } from '@/utils/getFetch';
->>>>>>> dev
 
 
 export function useFormMatricula() {

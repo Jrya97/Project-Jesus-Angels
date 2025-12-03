@@ -11,13 +11,8 @@ export type Apoderado = {
   nombre: string;
   dni: string;
   telefono: string;
-<<<<<<< HEAD
-  correo_electronico: string;
-  creado_en?: string;
-=======
   correoElectronico: string;
   creadoEn?: string;
->>>>>>> dev
 };
 
 export type Alumno = {

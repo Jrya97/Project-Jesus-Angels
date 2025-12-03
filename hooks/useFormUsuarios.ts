@@ -2,11 +2,7 @@
 
 import { useState } from 'react';
 import { Usuario } from '@/types/types';
-<<<<<<< HEAD
-import {createHandleChange} from '@/utils/formHelpers';
-=======
 import { createHandleChange } from '@/utils/formHelpers';
->>>>>>> dev
 
 export function useFormUsuario() {
   const [formUsuario, setFormUsuario] = useState<Usuario>({
