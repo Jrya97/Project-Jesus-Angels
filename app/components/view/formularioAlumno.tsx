@@ -7,7 +7,7 @@ import {
   FaMapMarkerAlt,
   FaUserTie,
 } from "react-icons/fa";
-import { useFormAlumno } from "@/hooks/useFromAlumno";
+import { useFormAlumno } from "@/hooks/useFormAlumno";
 import { InputFormAdmin } from "@/app/components/ui/labelFormularioAdmin";
 import { SecondButton } from "@/app/components/ui/SecondButton";
 
@@ -57,7 +57,7 @@ export default function FormAlumno() {
         label="Fecha de Nacimiento"
         name="fecha_nacimiento"
         placeholder="Número de documento"
-        value={formAlumno.fecha_nacimiento}
+        value={formAlumno.fechaNacimiento}
         onChange={handleChange}
         required
         icon={<FaCalendarAlt />}
@@ -84,14 +84,14 @@ export default function FormAlumno() {
           <FaUserTie className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none z-10" />
           <select
             name="id_apoderado"
-            value={formAlumno.id_apoderado}
+            value={formAlumno.idApoderado}
             onChange={handleChange}
             required
             className="w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-black/90 focus:border-transparent transition-all outline-none appearance-none bg-white/50"
           >
             <option value="">Seleccione un apoderado</option>
             {apoderados.map((a) => (
-              <option key={a.id_apoderado} value={a.id_apoderado}>
+              <option key={a.idApoderado} value={a.idApoderado}>
                 {a.nombre} - {a.dni}
               </option>
             ))}

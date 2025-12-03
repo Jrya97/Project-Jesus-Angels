@@ -1,7 +1,7 @@
 "use client";
 
 import { FaUser, FaPhone, FaEnvelope, FaIdCard } from "react-icons/fa";
-import { useFormApoderado } from "@/hooks/useFromApoderado";
+import { useFormApoderado } from "@/hooks/useFormApoderado";
 import { InputFormAdmin } from "../ui/labelFormularioAdmin";
 import { SecondButton } from "../ui/SecondButton";
 
@@ -47,7 +47,7 @@ export default function FormApoderado() {
         label="Correo Electrónico"
         name="correo_electronico"
         placeholder="JesusAngels@ejemplo.com"
-        value={formApoderado.correo_electronico}
+        value={formApoderado.correoElectronico}
         onChange={handleChange}
         required
         icon={<FaEnvelope />}

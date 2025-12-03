@@ -8,19 +8,19 @@ export function useFormApoderado() {
     nombre: '',
     dni: '',
     telefono: '',
-    correo_electronico: '',
+    correoElectronico: '',
   });
 
   const handleChange = createHandleChange(setFormApoderado);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('/api/apoderado', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apoderado`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formApoderado),
     });
-    if (!res.ok) {
+    if (res.ok) {
       alert('Apoderado registrado');
     } else {
       alert('Error al registrar apoderado');

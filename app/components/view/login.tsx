@@ -6,11 +6,11 @@ import { useLogin } from "../../../hooks/useLogin";
 
 export default function Login() {
   const {
-    username,
+    email,
     password,
     error,
     handleSubmit,
-    handleUsernameChange,
+    handleEmailChange,
     handlePasswordChange,
   } = useLogin();
 
@@ -35,12 +35,13 @@ export default function Login() {
 
         <div className="w-full flex flex-col gap-5">
           <LabelInput
-            legend="Usuario"
-            placeholder="Ej: admin"
+            legend="Correo Electrónico"
+            placeholder="ejemplo@correo.com"
             required
+            type="email"
             className="text-lg px-4 rounded-lg"
-            value={username}
-            onChange={handleUsernameChange}
+            value={email}
+            onChange={handleEmailChange}
           />
           <LabelInput
             legend="Contraseña"

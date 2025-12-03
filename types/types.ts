@@ -26,12 +26,17 @@ export type Alumno = {
   creadoEn?: string;
 };
 
-export type Usuario = {
-  id_usuario?: UUID;
+export type Perfil = {
+  id?: UUID;
   nombre: string;
-  correo_electronico: string;
-  password: string;
+  correoElectronico?: string;
   rol: string;
+}
+
+export type Usuario = {
+  id?: UUID;
+  email: string;
+  password: string;
 };
 
 type Estado = 'ACTIVO' | 'RETIRADO' | 'ANULADO'

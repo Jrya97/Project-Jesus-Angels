@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { getPerfilById } from "@/utils/getFetch";
 
 export function useLogin() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -11,24 +12,41 @@ export function useLogin() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-      credentials: "include",
-    });
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.success) {
-      window.location.href = "/admin";
-    } else {
-      setError(data.message);
+      if (data.success) {
+        const userId = data.userId || data.user?.id;
+
+        if (userId) {
+          const perfil = await getPerfilById(userId);
+
+          if (perfil && perfil.rol === 'ADMIN') {
+            window.location.href = "/admin";
+          } else if (perfil && perfil.rol === 'USER') {
+            window.location.href = "/profesor";
+          } else {
+            setError("No tienes permisos suficientes.");
+          }
+        } else {
+          setError("Error al identificar al usuario.");
+        }
+      } else {
+        setError("Credenciales inválidas");
+      }
+    } catch (err) {
+      setError("Error de conexión con el servidor");
     }
   };
 
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,11 +54,11 @@ export function useLogin() {
   };
 
   return {
-    username,
+    email,
     password,
     error,
     handleSubmit,
-    handleUsernameChange,
+    handleEmailChange,
     handlePasswordChange,
   };
 }
