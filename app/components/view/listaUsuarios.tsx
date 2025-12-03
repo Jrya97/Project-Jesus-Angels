@@ -1,9 +1,15 @@
-import { PerfilesFake } from "@/data/fakeData";
+
+'use client';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { SecondLink } from "../ui/SecondButton";
+import { usePerfiles } from "@/hooks/usePerfiles";
 
 export default function ListaUsuarios() {
+
+  const { dataPerfiles } = usePerfiles();
+
+
   return (
     <article className="p-6 w-full max-w-6xl mx-auto">
       <div className="mt-2">
@@ -16,9 +22,9 @@ export default function ListaUsuarios() {
       </div>
 
       <ul className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4">
-        {PerfilesFake.map((perfil) => (
+        {dataPerfiles.map((perfil) => (
           <li
-            key={perfil.id_perfil}
+            key={perfil.id}
             className="flex flex-col justify-between bg-white/85 shadow-md rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-200 hover:scale-105"
           >
             <div className="flex-1 mb-3">
@@ -26,14 +32,13 @@ export default function ListaUsuarios() {
                 {perfil.nombre}
               </h2>
               <p className="text-sm text-gray-500 overflow-hidden">
-                {perfil.correo_electronico}
+                {perfil.correoElectronico || ""}
               </p>
               <span
-                className={`inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full ${
-                  perfil.rol === "ADMIN"
-                    ? "bg-blue-100 text-blue-700"
-                    : "bg-green-100 text-green-700"
-                }`}
+                className={`inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full ${perfil.rol === "ADMIN"
+                  ? "bg-blue-100 text-blue-700"
+                  : "bg-green-100 text-green-700"
+                  }`}
               >
                 {perfil.rol}
               </span>

@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 export type CardsProps = {
   title: string;
   description: string;
@@ -5,44 +7,55 @@ export type CardsProps = {
 };
 
 export type Apoderado = {
-  id_apoderado?: string;
+  idApoderado?: number;
   nombre: string;
   dni: string;
   telefono: string;
+<<<<<<< HEAD
   correo_electronico: string;
   creado_en?: string;
+=======
+  correoElectronico: string;
+  creadoEn?: string;
+>>>>>>> dev
 };
 
 export type Alumno = {
-  id_alumno?: string;
+  idAlumno?: number;
   nombre: string;
   apellido: string;
   dni: string;
-  fecha_nacimiento: string;
+  fechaNacimiento: string;
   direccion: string;
-  id_apoderado: string;
+  idApoderado: number;
+  creadoEn?: string;
 };
+
+export type Perfil = {
+  id?: UUID;
+  nombre: string;
+  correoElectronico?: string;
+  rol: string;
+}
 
 export type Usuario = {
-  id_usuario?: string;
-  nombre: string;
-  correo_electronico: string;
+  id?: UUID;
+  email: string;
   password: string;
-  rol: string;
 };
 
-type Estado = 'ACTIVO'|'RETIRADO'|'ANULADO'
+type Estado = 'ACTIVO' | 'RETIRADO' | 'ANULADO'
 export type Matricula = {
-  id_matricula?:string;
-  id_alumno: string;
-  id_grado: string;
+  idMatricula?: number;
+  idAlumno: number;
+  idGrado: number;
   anio_lectivo: string;
-  fecha_matricula:string;
+  fecha_matricula: string;
   estado: Estado
 }
 
 export type Grado = {
-  id_grado?:string;
+  idGrado?: number;
   nombre: string;
   nivel: string;
 }

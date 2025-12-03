@@ -3,7 +3,11 @@ import { MensajeError } from '../ui/mensajeError';
 import FondoAdmin from './fondoAdmin';
 
 interface FallaAlumnoProps {
+<<<<<<< HEAD
     id: string;
+=======
+    id: string | number;
+>>>>>>> dev
 }
 
 export default function FallaAlumno({ id }: FallaAlumnoProps) {
