@@ -17,6 +17,7 @@ export default function MatriculaPage() {
             <SecondLink href="/admin/matricula/nuevoalumno">Registrar Nuevo Alumno</SecondLink>
             <SecondLink href="/admin/matricula/nuevoapoderado">Registrar Nuevo Apoderado</SecondLink>
             <SecondLink href="/admin/matricula/nuevamatricula">Crear Nueva Matrícula</SecondLink>
+            <SecondLink href="/admin/matricula/nuevopago">Generar Pago</SecondLink>
           </div>
         </div>
       </article>

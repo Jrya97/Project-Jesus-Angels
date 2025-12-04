@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAlumnoById } from "@/utils/getFetch";
-import type { Alumno, Apoderado } from "@/types/types";
+import { getAlumnoById, getMatriculaByIdAlumnos, getPagoByIdAlumno } from "@/utils/getFetch";
+import type { Alumno, Apoderado, Grado, Matricula, Pago } from "@/types/types";
+import { GiReceiveMoney } from "react-icons/gi";
 import {
     FaUser,
     FaIdCard,
@@ -13,7 +14,8 @@ import {
     FaPhone,
     FaEnvelope,
     FaInbox,
-    FaEdit
+    FaEdit,
+    FaPaperclip,
 } from "react-icons/fa";
 import { InformacionCard } from "@/app/components/ui/informacionCard";
 import { InformacionItem } from "@/app/components/ui/informacionItem";
@@ -21,11 +23,15 @@ import { EstadoVacio } from "@/app/components/ui/estadovacio";
 import { Modal } from "@/app/components/ui/modal";
 import { EditarAlumnoForm } from "@/app/components/forms/EditarAlumnoForm";
 import { EditarApoderadoForm } from "@/app/components/forms/EditarApoderadoForm";
+import { EditarPagoForm } from "@/app/components/forms/EditarPagoForm";
 import { SecondButton } from "@/app/components/ui/SecondButton";
 import { useModal } from "@/hooks/useModal";
 import { useEditAlumno } from "@/hooks/useEditAlumno";
 import { useEditApoderado } from "@/hooks/useEditApoderado";
 import FallaAlumno from "@/app/components/view/fallaAlumno";
+import { useEditPago } from "@/hooks/useEditPago";
+import { useEditMatricula } from "@/hooks/useEditMatricula";
+import { EditarMatriculaForm } from "@/app/components/forms/EditarMatriculaForm";
 
 interface AlumnoDetalleClientProps {
     id: string;
@@ -34,9 +40,15 @@ interface AlumnoDetalleClientProps {
 export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
     const [initialAlumno, setInitialAlumno] = useState<Alumno | undefined>(undefined);
     const [initialApoderado, setInitialApoderado] = useState<Apoderado | undefined>(undefined);
+    const [initialMatricula, setInitialMatricula] = useState<Matricula[]>([]);
+    const [initialPago, setInitialPago] = useState<Pago[]>([]);
+    const [selectedPago, setSelectedPago] = useState<Pago | undefined>(undefined);
+    const [selectedMatricula, setSelectedMatricula] = useState<Matricula | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
     const { alumnoData, handleSave: handleSaveAlumno } = useEditAlumno(initialAlumno);
     const { apoderadoData, handleSave: handleSaveApoderado } = useEditApoderado(initialApoderado);
+    const { pagoData, handleSave: handleSavePago } = useEditPago(selectedPago);
+    const { matriculaData, handleSave: handleSaveMatricula } = useEditMatricula(selectedMatricula);
 
 
     useEffect(() => {
@@ -51,6 +63,15 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                 if (alumno?.apoderado) {
                     setInitialApoderado(alumno.apoderado);
                 }
+
+                const matriculaResponse = await getMatriculaByIdAlumnos(alumnoId)
+
+                const matriculas = Array.isArray(matriculaResponse) ? matriculaResponse : (matriculaResponse ? [matriculaResponse] : []);
+                setInitialMatricula(matriculas);
+
+                const pagoResponse = await getPagoByIdAlumno(alumnoId)
+                setInitialPago(Array.isArray(pagoResponse) ? pagoResponse : []);
+
             } catch (error) {
                 console.error('Error cargando datos del alumno:', error);
             } finally {
@@ -63,6 +84,8 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
 
     const alumnoModal = useModal();
     const apoderadoModal = useModal();
+    const pagoModal = useModal();
+    const matriculaModal = useModal();
 
     const onSaveAlumno = async (updatedAlumno: typeof alumnoData) => {
         if (updatedAlumno) {
@@ -76,6 +99,43 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
             const success = await handleSaveApoderado(updatedApoderado);
             if (success) apoderadoModal.closeModal();
         }
+    };
+
+    const onSavePago = async (updatedPago: Pago) => {
+        if (!updatedPago) return;
+
+        const success = await handleSavePago(updatedPago);
+        if (!success) return;
+        setInitialPago(prev =>
+            prev.map(p => p.idPago === updatedPago.idPago ? updatedPago : p)
+        );
+
+        setSelectedPago(undefined);
+        pagoModal.closeModal();
+    };
+
+    const handleEditPago = (pago: Pago) => {
+        setSelectedPago(pago);
+        pagoModal.openModal();
+    };
+
+    const handleEditMatricula = (matricula: Matricula) => {
+        setSelectedMatricula(matricula);
+        matriculaModal.openModal();
+    };
+
+    const onSaveMatricula = async (updatedMatricula: Matricula) => {
+        if (!updatedMatricula) return;
+
+        const success = await handleSaveMatricula(updatedMatricula);
+        if (!success) return;
+
+        setInitialMatricula(prev =>
+            prev.map(m => m.idMatricula === updatedMatricula.idMatricula ? updatedMatricula : m)
+        );
+
+        setSelectedMatricula(undefined);
+        matriculaModal.closeModal();
     };
 
 
@@ -105,10 +165,64 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                         <div className="min-w-0">
                             <p className="text-xs sm:text-sm font-medium text-gray-600">Información del Estudiante</p>
                             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 truncate">
-                                {alumnoData.apellido}, {alumnoData.nombre}
+                                {alumnoData.nombre} {alumnoData.apellido}
                             </h1>
                         </div>
                     </div>
+                </div>
+
+                <div className="mb-4 sm:mb-6 md:mb-8">
+                    <InformacionCard
+                        title="Información de Matrícula"
+                        icon={FaPaperclip}
+                    >
+                        {initialMatricula.length > 0 ? (
+                            <div className="space-y-4">
+                                {initialMatricula.map((matricula, index) => (
+                                    <div key={matricula.idMatricula || index} className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-sm border-b last:border-0 pb-4 last:pb-0 border-gray-200">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-600">Grado:</span>
+                                            <span className="font-semibold text-gray-800">{(matricula.grado as any)?.nombre || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-600">Nivel:</span>
+                                            <span className="font-semibold text-gray-800">{(matricula.grado as any)?.nivel || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <FaCalendarAlt className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <span className="text-gray-600">Año:</span>
+                                            <span className="font-semibold text-gray-800">{matricula.anioLectivo || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <FaCalendarAlt className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <span className="text-gray-600">Fecha:</span>
+                                            <span className="font-semibold text-gray-800">{matricula.fechaMatricula || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <FaInbox className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <span className="text-gray-600">Estado:</span>
+                                            <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${matricula.estado === 'ACTIVO'
+                                                ? 'bg-green-100 text-green-700'
+                                                : matricula.estado === 'RETIRADO'
+                                                    ? 'bg-red-100 text-red-700'
+                                                    : 'bg-gray-100 text-gray-700'
+                                                }`}>
+                                                {matricula.estado}
+                                            </span>
+                                        </div>
+                                        <button
+                                            className="flex items-center gap-2 px-3 py-2 bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black rounded-lg transition-colors text-sm font-medium shrink-0 ml-auto"
+                                            onClick={() => handleEditMatricula(matricula)}
+                                        >
+                                            <FaEdit className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <EstadoVacio icon={FaInbox} message="No hay información de matrícula disponible" />
+                        )}
+                    </InformacionCard>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
@@ -162,6 +276,66 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                 </div>
             </div>
 
+            {/* Pagos del Alumno */}
+            <div className="w-full max-w-5xl mx-auto relative z-10 p-4 md:p-8">
+                <InformacionCard
+                    title="Historial de Pagos"
+                    icon={GiReceiveMoney}
+                >
+                    {Array.isArray(initialPago) && initialPago.length > 0 ? (
+                        <ol className="space-y-3">
+                            {[...initialPago].sort((a, b) => (b.idPago ?? 0) - (a.idPago ?? 0)).map((pago, index) => (
+                                <li
+                                    key={pago.idPago}
+                                    className="flex items-center justify-between gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
+                                >
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm">
+                                            <span className="font-semibold text-gray-700">
+                                                #{initialPago.length - index}
+                                            </span>
+                                            <span className="font-bold text-gray-900">
+                                                S/ {Number(pago.monto).toFixed(2)}
+                                            </span>
+                                            <span className="text-gray-600">
+                                                FP: {pago.fechaPago}
+                                            </span>
+                                            <span className="text-gray-600">
+                                                TIPO: {pago.tipo}
+                                            </span>
+                                            {pago.mes && (
+                                                <span className="text-gray-600">
+                                                    {pago.mes}
+                                                </span>
+                                            )}
+                                            <span className="text-gray-600">
+                                                PERIODO: {pago.anioPago}
+                                            </span>
+
+                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${pago.estado === 'PAGADO'
+                                                ? 'bg-green-100 text-green-700'
+                                                : 'bg-yellow-100 text-yellow-700'
+                                                }`}>
+                                                {pago.estado}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="flex items-center gap-2 px-3 py-2 bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black rounded-lg transition-colors text-sm font-medium shrink-0"
+                                        onClick={() => handleEditPago(pago)}
+                                    >
+                                        <FaEdit className="w-4 h-4" />
+                                        <span className="hidden sm:inline">Editar</span>
+                                    </button>
+                                </li>
+                            ))}
+                        </ol>
+                    ) : (
+                        <EstadoVacio icon={FaInbox} message="No hay pagos registrados" />
+                    )}
+                </InformacionCard>
+            </div>
+
             <Modal
                 isOpen={alumnoModal.isOpen}
                 onClose={alumnoModal.closeModal}
@@ -184,6 +358,46 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                         apoderado={apoderadoData}
                         onSave={onSaveApoderado}
                         onCancel={apoderadoModal.closeModal}
+                    />
+                </Modal>
+            )}
+
+            {selectedPago && (
+                <Modal
+                    isOpen={pagoModal.isOpen}
+                    onClose={() => {
+                        pagoModal.closeModal();
+                        setSelectedPago(undefined);
+                    }}
+                    title="Editar Pago"
+                >
+                    <EditarPagoForm
+                        pago={selectedPago}
+                        onSave={onSavePago}
+                        onCancel={() => {
+                            pagoModal.closeModal();
+                            setSelectedPago(undefined);
+                        }}
+                    />
+                </Modal>
+            )}
+
+            {selectedMatricula && (
+                <Modal
+                    isOpen={matriculaModal.isOpen}
+                    onClose={() => {
+                        matriculaModal.closeModal();
+                        setSelectedMatricula(undefined);
+                    }}
+                    title="Editar Matrícula"
+                >
+                    <EditarMatriculaForm
+                        matricula={selectedMatricula}
+                        onSave={onSaveMatricula}
+                        onCancel={() => {
+                            matriculaModal.closeModal();
+                            setSelectedMatricula(undefined);
+                        }}
                     />
                 </Modal>
             )}

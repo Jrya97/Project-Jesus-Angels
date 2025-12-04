@@ -57,3 +57,21 @@ export type Grado = {
   nivel: string;
 }
 
+type tipoPago = 'MATRICULA' | 'MENSUALIDAD'
+type meses = 'ENERO' | 'FEBRERO' | 'MARZO' | 'ABRIL' | 'MAYO' | 'JUNIO' | 'JULIO' | 'AGOSTO' | 'SEPTIEMBRE' | 'OCTUBRE' | 'NOVIEMBRE' | 'DICIEMBRE'
+type estadoPago = 'PAGADO' | 'PENDIENTE'
+export type Pago = {
+  idPago?: number;
+  alumno: { idAlumno: number };
+  tipo: tipoPago;
+  mes: meses | null;
+  monto: number;
+  fechaPago: string;
+  estado: estadoPago
+  anioPago: string;
+}
+
+export type curso = {
+  idCurso?: number,
+  nombre: string
+}

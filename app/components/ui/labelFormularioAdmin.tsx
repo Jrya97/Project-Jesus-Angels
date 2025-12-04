@@ -5,13 +5,14 @@ interface InputFormAdminProps {
   name: string;
   type?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   icon: ReactNode;
   autoComplete?: string;
   maxLength?: number;
   pattern?: string;
+  step?: string;
 }
 
 export function InputFormAdmin({
@@ -26,6 +27,7 @@ export function InputFormAdmin({
   autoComplete,
   maxLength,
   pattern,
+  step,
 }: InputFormAdminProps) {
   return (
     <div>
@@ -44,6 +46,7 @@ export function InputFormAdmin({
           autoComplete={autoComplete}
           maxLength={maxLength}
           pattern={pattern}
+          step={step}
           className="w-full pl-10 sm:pl-11 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-black/90 focus:border-transparent transition-all outline-none"
         />
       </div>

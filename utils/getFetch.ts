@@ -244,6 +244,22 @@ export async function getMatriculaById(id: string | number) {
     }
 }
 
+export async function getMatriculaByIdAlumnos(id: string | number) {
+    try {
+        const res = await fetch(`${API_URL}/matriculas/alumno/${id}`);
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const dataMatricula = await res.json();
+        return dataMatricula;
+    } catch (error) {
+        console.error(`Error fetching matricula ${id}:`, error);
+        return null;
+    }
+}
+
 export async function getNotaById(id: string | number) {
     try {
         const res = await fetch(`${API_URL}/notas/${id}`);
@@ -275,6 +291,23 @@ export async function getPagoById(id: string | number) {
         return null;
     }
 }
+
+export async function getPagoByIdAlumno(id: string | number) {
+    try {
+        const res = await fetch(`${API_URL}/pagos/alumno/${id}`);
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const dataPago = await res.json();
+        return dataPago;
+    } catch (error) {
+        console.error(`Error fetching pago ${id}:`, error);
+        return null;
+    }
+}
+
 
 export async function getPerfilById(id: string | number) {
     try {
