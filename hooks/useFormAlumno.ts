@@ -3,11 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { Alumno, Apoderado } from '@/types/types';
 import { createHandleChange } from '@/utils/formHelpers';
-<<<<<<< HEAD:hooks/useFromAlumno.ts
-
-=======
 import { getApoderados } from '@/utils/getFetch';
->>>>>>> dev:hooks/useFormAlumno.ts
 
 export function useFormAlumno() {
   const [apoderados, setApoderados] = useState<Apoderado[]>([]);
