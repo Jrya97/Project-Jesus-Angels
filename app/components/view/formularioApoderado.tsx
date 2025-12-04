@@ -45,7 +45,7 @@ export default function FormApoderado() {
 
       <InputFormAdmin
         label="Correo Electrónico"
-        name="correo_electronico"
+        name="correoElectronico"
         placeholder="JesusAngels@ejemplo.com"
         value={formApoderado.correoElectronico}
         onChange={handleChange}
@@ -55,7 +55,7 @@ export default function FormApoderado() {
         autoComplete="email"
       />
 
-      <SecondButton>Guardar Apoderado</SecondButton>
+      <SecondButton type="submit">Guardar Apoderado</SecondButton>
     </form>
   );
 }

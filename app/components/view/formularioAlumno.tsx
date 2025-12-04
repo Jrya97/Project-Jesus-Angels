@@ -55,8 +55,8 @@ export default function FormAlumno() {
       />
       <InputFormAdmin
         label="Fecha de Nacimiento"
-        name="fecha_nacimiento"
-        placeholder="Número de documento"
+        name="fechaNacimiento"
+        placeholder="Fecha de Nacimiento"
         value={formAlumno.fechaNacimiento}
         onChange={handleChange}
         required
@@ -83,8 +83,8 @@ export default function FormAlumno() {
         <div className="relative">
           <FaUserTie className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none z-10" />
           <select
-            name="id_apoderado"
-            value={formAlumno.idApoderado}
+            name="apoderado.idApoderado"
+            value={formAlumno.apoderado.idApoderado}
             onChange={handleChange}
             required
             className="w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-black/90 focus:border-transparent transition-all outline-none appearance-none bg-white/50"
@@ -114,7 +114,7 @@ export default function FormAlumno() {
         </div>
       </div>
 
-      <SecondButton>Guardar Alumno</SecondButton>
+      <SecondButton type="submit">Guardar Alumno</SecondButton>
     </form>
   );
 }

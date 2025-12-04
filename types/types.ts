@@ -22,7 +22,9 @@ export type Alumno = {
   dni: string;
   fechaNacimiento: string;
   direccion: string;
-  idApoderado: number;
+  apoderado: {
+    idApoderado: number;
+  };
   creadoEn?: string;
 };
 
@@ -42,10 +44,10 @@ export type Usuario = {
 type Estado = 'ACTIVO' | 'RETIRADO' | 'ANULADO'
 export type Matricula = {
   idMatricula?: number;
-  idAlumno: number;
-  idGrado: number;
-  anio_lectivo: string;
-  fecha_matricula: string;
+  alumno: { idAlumno: number };
+  grado: { idGrado: number };
+  anioLectivo: string;
+  fechaMatricula: string;
   estado: Estado
 }
 
