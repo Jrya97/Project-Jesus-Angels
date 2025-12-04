@@ -1,14 +1,38 @@
 
-'use client';
+"use client";
+
+import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { SecondLink } from "../ui/SecondButton";
 import { usePerfiles } from "@/hooks/usePerfiles";
+import { Modal } from "../ui/modal";
+import { EditarUsuarioForm } from "../forms/EditarUsuarioForm";
+import { useDeleteUsuario } from "@/hooks/useDeleteUsuario";
+import { useModal } from "@/hooks/useModal";
+import { Perfil } from "@/types/types";
 
 export default function ListaUsuarios() {
-
   const { dataPerfiles } = usePerfiles();
+  const { isOpen, openModal, closeModal } = useModal();
+  const { deleteUsuario } = useDeleteUsuario();
+  const [selectedUsuario, setSelectedUsuario] = useState<Perfil | null>(null);
 
+  const handleEdit = (usuario: Perfil) => {
+    setSelectedUsuario(usuario);
+    openModal();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("¿Estás seguro de eliminar este usuario?")) {
+      await deleteUsuario(id);
+      window.location.reload();
+    }
+  };
+
+  const handleSuccess = () => {
+    window.location.reload();
+  };
 
   return (
     <article className="p-6 w-full max-w-6xl mx-auto">
@@ -46,12 +70,14 @@ export default function ListaUsuarios() {
 
             <div className="flex justify-center md:justify-end space-x-3">
               <button
+                onClick={() => handleEdit(perfil)}
                 className="p-2 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all duration-150 active:scale-95"
                 title="Editar"
               >
                 <FaEdit size={18} />
               </button>
               <button
+                onClick={() => perfil.id && handleDelete(perfil.id)}
                 className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-150 active:scale-95"
                 title="Eliminar"
               >
@@ -61,6 +87,17 @@ export default function ListaUsuarios() {
           </li>
         ))}
       </ul>
+
+      <Modal isOpen={isOpen} onClose={closeModal} title="Editar Usuario">
+        {selectedUsuario && (
+          <EditarUsuarioForm
+            usuario={selectedUsuario}
+            onClose={closeModal}
+            onSuccess={handleSuccess}
+          />
+        )}
+      </Modal>
     </article>
   );
 }
+
