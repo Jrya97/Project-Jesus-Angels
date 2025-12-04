@@ -17,8 +17,8 @@ export default function FormMatricula() {
         <div className="relative">
           <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none z-10" />
           <select
-            name="idAlumno"
-            value={formMatricula.idAlumno}
+            name="alumno.idAlumno"
+            value={formMatricula.alumno.idAlumno}
             onChange={handleChange}
             required
             className="w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base border
@@ -28,7 +28,7 @@ export default function FormMatricula() {
             <option value="">Seleccione un alumno</option>
             {alumnos.map((a) => (
               <option key={a.idAlumno} value={a.idAlumno}>
-                {a.nombre} - {a.dni}
+                {a.nombre} {a.apellido} - DNI: {a.dni}
               </option>
             ))}
           </select>
@@ -52,9 +52,9 @@ export default function FormMatricula() {
       <div className="flex justify-evenly">
         <InputFormAdmin
           label="Año Electivo"
-          name="anio_electivo"
+          name="anioLectivo"
           placeholder="2025"
-          value={formMatricula.anio_lectivo}
+          value={formMatricula.anioLectivo}
           onChange={handleChange}
           required
           icon={<FaCalendarAlt />}
@@ -68,8 +68,8 @@ export default function FormMatricula() {
           <div className="relative">
             <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none z-10" />
             <select
-              name="id_apoderado"
-              value={formMatricula.idGrado}
+              name="grado.idGrado"
+              value={formMatricula.grado.idGrado}
               onChange={handleChange}
               required
               className="w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base border
@@ -102,9 +102,9 @@ export default function FormMatricula() {
         </div>
         <InputFormAdmin
           label="Fecha de la matricula"
-          name="fecha_matricula"
+          name="fechaMatricula"
           placeholder="Número de contacto"
-          value={formMatricula.fecha_matricula}
+          value={formMatricula.fechaMatricula}
           onChange={handleChange}
           required
           icon={<FaCalendarAlt />}
@@ -120,8 +120,8 @@ export default function FormMatricula() {
         <div className="relative">
           <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none z-10" />
           <select
-            name="id_apoderado"
-            value={formMatricula.idAlumno}
+            name="estado"
+            value={formMatricula.estado}
             onChange={handleChange}
             required
             className="w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg 
@@ -151,7 +151,7 @@ export default function FormMatricula() {
         </div>
       </div>
 
-      <SecondButton>Guardar Apoderado</SecondButton>
+      <SecondButton type="submit">Guardar Matricula</SecondButton>
     </form>
   );
 }

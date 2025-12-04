@@ -4,16 +4,17 @@ import { useState, useEffect } from 'react';
 import type { Alumno, Grado, Matricula } from '@/types/types';
 import { createHandleChange } from '@/utils/formHelpers';
 import { getAlumnos, getGrados } from '@/utils/getFetch';
+import { createHandleChangeAlumno } from '@/utils/formHelpersAlumno';
 
 
 export function useFormMatricula() {
   const [alumnos, setAlumno] = useState<Alumno[]>([]);
   const [grados, setGrado] = useState<Grado[]>([]);
   const [formMatricula, setFormMatricula] = useState<Matricula>({
-    idAlumno: 0,
-    idGrado: 0,
-    anio_lectivo: '',
-    fecha_matricula: new Date().toLocaleDateString(),
+    alumno: { idAlumno: 0 },
+    grado: { idGrado: 0 },
+    anioLectivo: new Date().getFullYear().toString(),
+    fechaMatricula: new Date().toLocaleDateString(),
     estado: 'ACTIVO'
   });
 
@@ -49,12 +50,12 @@ export function useFormMatricula() {
   }, []);
 
 
-  const handleChange = createHandleChange(setFormMatricula);
+  const handleChange = createHandleChangeAlumno(setFormMatricula);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/matricula', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/matriculas`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formMatricula),

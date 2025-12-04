@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import type { Alumno, Apoderado } from '@/types/types';
-import { createHandleChange } from '@/utils/formHelpers';
 import { getApoderados } from '@/utils/getFetch';
+import { createHandleChangeAlumno } from '@/utils/formHelpersAlumno';
 
 export function useFormAlumno() {
   const [apoderados, setApoderados] = useState<Apoderado[]>([]);
@@ -13,7 +13,7 @@ export function useFormAlumno() {
     dni: '',
     fechaNacimiento: '',
     direccion: '',
-    idApoderado: 0
+    apoderado: { idApoderado: 1 }
   });
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export function useFormAlumno() {
     fetchApoderados();
   }, []);
 
-  const handleChange = createHandleChange(setFormAlumno);
+  const handleChange = createHandleChangeAlumno(setFormAlumno);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
