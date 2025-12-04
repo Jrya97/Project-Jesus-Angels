@@ -29,7 +29,7 @@ export function useLogin() {
 
           if (perfil && perfil.rol === 'ADMIN') {
             window.location.href = "/admin";
-          } else if (perfil && perfil.rol === 'USER') {
+          } else if (perfil && perfil.rol === 'PROFESOR') {
             window.location.href = "/profesor";
           } else {
             setError("No tienes permisos suficientes.");
