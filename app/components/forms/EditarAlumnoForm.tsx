@@ -62,11 +62,7 @@ export const EditarAlumnoForm = ({ alumno, onSave, onCancel }: EditarAlumnoFormP
                     label="Fecha de Nacimiento"
                     name="fecha_nacimiento"
                     type="date"
-<<<<<<< HEAD
-                    value={formData.fecha_nacimiento}
-=======
                     value={formData.fechaNacimiento}
->>>>>>> dev
                     onChange={handleChange}
                     required
                     icon={<FaCalendarAlt />}
