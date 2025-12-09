@@ -17,9 +17,9 @@ export function MisionVision({
             justify-center items-center
             py-10 px-5 md:px-10 lg:px-20
             gap-6             
-            ${className}`}
+            ${className} animate-fade-up`}
     >
-      
+
       <div className="flex flex-col gap-5">
         <h3
           className="
@@ -41,7 +41,7 @@ export function MisionVision({
         src={imagen}
         alt={`imagen-${imagen}`}
         width={400}
-        height={400} 
+        height={400}
       />
     </article>
   );

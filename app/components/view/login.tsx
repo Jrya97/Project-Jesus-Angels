@@ -21,6 +21,7 @@ export default function Login() {
       <form
         onSubmit={handleSubmit}
         className="
+          animate-fade-up
           flex flex-col items-center gap-6
           w-full max-w-lg
           p-10

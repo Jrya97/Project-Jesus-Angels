@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sistema de Gestión Académica - I.E. "Jesús Angels"
 
-## Getting Started
+Este proyecto es una plataforma web integral desarrollada con **Next.js** y **TypeScript**, diseñada para la administración y gestión académica de la institución educativa "Jesús Angels". Permite la interacción eficiente entre administradores, profesores y alumnos.
 
-First, run the development server:
+## 🚀 Características Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🎓 Módulo Administrativo
+Panel de control completo para la gestión institucional:
+- **Gestión de Alumnos y Matrículas:** Registro, edición y seguimiento de expedientes estudiantiles.
+- **Control Académico:** Administración de grados, cursos y asignación de profesores.
+- **Notas y Asistencia:** Supervisión global de calificaciones y registros de asistencia.
+- **Pagos:** Control de pensiones y pagos de matrícula.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 👨‍🏫 Módulo de Profesores
+Herramientas específicas para la labor docente:
+- **Registro de Asistencia:** Toma de asistencia diaria por grados y secciones.
+- **Gestión de Calificaciones:** Ingreso y edición de notas por alumno y curso.
+- **Historial:** Visualización y corrección de registros de asistencia pasados.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔍 Módulo Público y de Alumnos
+Acceso facilitado a la información académica:
+- **Consulta de Notas:** Portal público donde los alumnos pueden verificar sus calificaciones ingresando su DNI y código de seguridad (primeras letras del nombre).
+- **Inicio de Sesión:** Acceso seguro para personal administrativo y docente.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tecnologías Utilizadas
 
-## Learn More
+- **Core:** [Next.js](https://nextjs.org/) (App Router), [React](https://react.dev/)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Iconos:** React Icons
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Instalación y Puesta en Marcha
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para ejecutar el proyecto localmente, sigue estos pasos:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Instalar dependencias:**
 
-## Deploy on Vercel
+    ```bash
+    npm install
+    # o
+    pnpm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Configurar Variables de Entorno:**
+    Asegúrate de tener configurado el archivo `.env.local` con la URL de tu API backend:
+    ```bash
+    NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Iniciar el servidor de desarrollo:**
+
+    ```bash
+    npm run dev
+    # o
+    pnpm dev
+    ```
+
+4.  **Acceder a la aplicación:**
+    Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 📂 Estructura del Proyecto
+
+- `/app`: Rutas y páginas de la aplicación (App Router).
+  - `(admin)`: Rutas protegidas para administradores.
+  - `(profesor)`: Rutas protegidas para docentes.
+  - `(public)`: Rutas de acceso público (Login, Consulta de Notas).
+- `/components`: Componentes reutilizables de UI (formularios, tablas, modales).
+- `/hooks`: Lógica de estado y efectos personalizados (ej. `useAsistencia`, `useLogin`).
+- `/utils`: Funciones de utilidad y llamadas a la API (`getFetch.ts`).
+- `/types`: Definiciones de tipos TypeScript (`types.ts`).

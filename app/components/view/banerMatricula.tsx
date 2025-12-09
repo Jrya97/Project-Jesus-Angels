@@ -12,6 +12,7 @@ export function BanerMatricula() {
           text-white font-extrabold 
           drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)]
           mb-4 sm:mb-6
+          animate-zoom-in
         "
       >
         MATRÍCULAS ABIERTAS
@@ -23,6 +24,7 @@ export function BanerMatricula() {
           text-gray-600 sm:text-[#24a9e7]
           max-w-[750px] leading-relaxed sm:leading-normal
           mb-6 sm:mb-8 z-10
+          animate-fade-up
         "
       >
         📢✨{" "}
@@ -42,14 +44,16 @@ export function BanerMatricula() {
         📢✨
       </p>
 
-      <PrimaryLink
-        href="https://wa.me/51987197782?text=¡Hola!%0AQuiero%20más%20información%20sobre%20la%20matricula%20del%202026."
-        target="_blank"
-        rel="noopener noreferrer"
-        className="sm:px-6 md:px-8 sm:py-3 text-base sm:text-lg md:text-xl z-20"
-      >
-        ⭢ Más Información ⭠
-      </PrimaryLink>
+      <div className="animate-fade-up animate-delay-200">
+        <PrimaryLink
+          href="https://wa.me/51987197782?text=¡Hola!%0AQuiero%20más%20información%20sobre%20la%20matricula%20del%202026."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sm:px-6 md:px-8 sm:py-3 text-base sm:text-lg md:text-xl z-20"
+        >
+          ⭢ Más Información ⭠
+        </PrimaryLink>
+      </div>
     </section>
   );
 }

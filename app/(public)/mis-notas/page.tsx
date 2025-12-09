@@ -92,8 +92,8 @@ export default function MisNotasPage() {
     };
 
     return (
-        <main className="min-h-screen bg-[url('/Fondo.jpg')] bg-cover bg-center flex items-center justify-center p-4">
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl w-full max-w-4xl p-6 md:p-8 flex flex-col gap-6">
+        <main className="min-h-screen bg-[url('/Fondo.jpg')] bg-cover bg-center flex items-center justify-center p-4 animate-fade-in">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl w-full max-w-4xl p-6 md:p-8 flex flex-col gap-6 animate-zoom-in">
 
                 {/* Header */}
                 <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ export default function MisNotasPage() {
 
                 {/* Formulario de Búsqueda */}
                 {!alumno ? (
-                    <section className="flex flex-col gap-4 bg-white p-6 rounded-xl shadow-inner border border-gray-100">
+                    <section className="flex flex-col gap-4 bg-white p-6 rounded-xl shadow-inner border border-gray-100 animate-slide-up">
                         <p className="text-gray-600 text-sm mb-2">
                             Ingresa tu DNI y tu codigo.
                         </p>
@@ -151,8 +151,8 @@ export default function MisNotasPage() {
                     </section>
                 ) : (
                     /* Resultados */
-                    <section className="flex flex-col gap-6 animate-fadeIn">
-                        <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex justify-between items-center flex-wrap gap-4">
+                    <section className="flex flex-col gap-6 animate-fade-in">
+                        <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex justify-between items-center flex-wrap gap-4 animate-slide-down">
                             <div>
                                 <h2 className="text-xl font-bold text-indigo-900">{alumno.nombre} {alumno.apellido}</h2>
                                 <p className="text-indigo-700 text-sm">DNI: {alumno.dni}</p>
