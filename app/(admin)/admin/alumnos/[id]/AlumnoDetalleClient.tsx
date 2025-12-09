@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAlumnoById, getMatriculaByIdAlumnos, getPagoByIdAlumno } from "@/utils/getFetch";
-import type { Alumno, Apoderado, Grado, Matricula, Pago } from "@/types/types";
+import { getAlumnoById, getMatriculaByIdAlumnos, getPagoByIdAlumno, getNotasByAlumno, getPerfiles } from "@/utils/getFetch";
+import type { Alumno, Apoderado, Grado, Matricula, Pago, Nota, Perfil } from "@/types/types";
 import { GiReceiveMoney } from "react-icons/gi";
 import {
     FaUser,
@@ -16,6 +16,7 @@ import {
     FaInbox,
     FaEdit,
     FaPaperclip,
+    FaGraduationCap
 } from "react-icons/fa";
 import { InformacionCard } from "@/app/components/ui/informacionCard";
 import { InformacionItem } from "@/app/components/ui/informacionItem";
@@ -24,6 +25,7 @@ import { Modal } from "@/app/components/ui/modal";
 import { EditarAlumnoForm } from "@/app/components/forms/EditarAlumnoForm";
 import { EditarApoderadoForm } from "@/app/components/forms/EditarApoderadoForm";
 import { EditarPagoForm } from "@/app/components/forms/EditarPagoForm";
+import { EditarNotaForm } from "@/app/components/forms/EditarNotaForm";
 import { SecondButton } from "@/app/components/ui/SecondButton";
 import { useModal } from "@/hooks/useModal";
 import { useEditAlumno } from "@/hooks/useEditAlumno";
@@ -45,6 +47,14 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
     const [selectedPago, setSelectedPago] = useState<Pago | undefined>(undefined);
     const [selectedMatricula, setSelectedMatricula] = useState<Matricula | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Estados para notas
+    const [showNotasModal, setShowNotasModal] = useState(false);
+    const [showEditarNotaModal, setShowEditarNotaModal] = useState(false);
+    const [selectedNota, setSelectedNota] = useState<Nota | null>(null);
+    const [alumnoNotas, setAlumnoNotas] = useState<Nota[]>([]);
+    const [perfilesMap, setPerfilesMap] = useState<Record<string, string>>({});
+
     const { alumnoData, handleSave: handleSaveAlumno } = useEditAlumno(initialAlumno);
     const { apoderadoData, handleSave: handleSaveApoderado } = useEditApoderado(initialApoderado);
     const { pagoData, handleSave: handleSavePago } = useEditPago(selectedPago);
@@ -139,6 +149,59 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
     };
 
 
+    const handleVerNotas = async () => {
+        if (!alumnoData) return;
+        setShowNotasModal(true);
+        try {
+            // Cargar notas y perfiles en paralelo
+            const [notas, perfiles] = await Promise.all([
+                getNotasByAlumno(Number(id)),
+                Object.keys(perfilesMap).length === 0 ? getPerfiles() : Promise.resolve(null)
+            ]);
+
+            if (notas && Array.isArray(notas)) {
+                setAlumnoNotas(notas);
+            } else {
+                setAlumnoNotas([]);
+            }
+
+            // Procesar perfiles solo si se descargaron nuevos
+            if (perfiles && Array.isArray(perfiles)) {
+                const map: Record<string, string> = {};
+                perfiles.forEach((p: Perfil) => {
+                    if (p.id) {
+                        map[p.id] = p.nombre;
+                    }
+                });
+                setPerfilesMap(prev => ({ ...prev, ...map }));
+            }
+
+        } catch (error) {
+            console.error("Error al obtener notas o perfiles", error);
+            setAlumnoNotas([]);
+        }
+    };
+
+    const handleEditarNota = (nota: Nota) => {
+        setSelectedNota(nota);
+        setShowEditarNotaModal(true);
+        // Opcional: Cerrar modal de ver notas
+        setShowNotasModal(false);
+    };
+
+    const handleSaveNotaEdit = (updatedNota: Nota) => {
+        setAlumnoNotas(prev => prev.map(n => n.idNota === updatedNota.idNota ? updatedNota : n));
+        setShowEditarNotaModal(false);
+        setSelectedNota(null);
+        setShowNotasModal(true); // Re-abrir lista
+    };
+
+    const handleCancelNotaEdit = () => {
+        setShowEditarNotaModal(false);
+        setSelectedNota(null);
+        setShowNotasModal(true); // Re-abrir lista
+    };
+
     if (isLoading) {
         return (
             <div className="w-full max-w-5xl mx-auto relative z-10 p-4 md:p-8 flex items-center justify-center min-h-screen">
@@ -158,16 +221,25 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
         <>
             <div className="w-full max-w-5xl mx-auto relative z-10 p-4 md:p-8">
                 <div className="bg-white/85 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
-                    <div className="flex items-center gap-3 sm:gap-4 mb-2">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
-                            <FaUser className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-800" />
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
+                                <FaUser className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-800" />
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-xs sm:text-sm font-medium text-gray-600">Información del Estudiante</p>
+                                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 truncate">
+                                    {alumnoData.nombre} {alumnoData.apellido}
+                                </h1>
+                            </div>
                         </div>
-                        <div className="min-w-0">
-                            <p className="text-xs sm:text-sm font-medium text-gray-600">Información del Estudiante</p>
-                            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 truncate">
-                                {alumnoData.nombre} {alumnoData.apellido}
-                            </h1>
-                        </div>
+                        <button
+                            onClick={handleVerNotas}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors shadow-md w-full sm:w-auto justify-center"
+                        >
+                            <FaGraduationCap className="w-5 h-5" />
+                            Ver Notas
+                        </button>
                     </div>
                 </div>
 
@@ -398,6 +470,82 @@ export default function AlumnoDetalleClient({ id }: AlumnoDetalleClientProps) {
                             matriculaModal.closeModal();
                             setSelectedMatricula(undefined);
                         }}
+                    />
+                </Modal>
+            )}
+
+            {/* Modal Ver Notas */}
+            <Modal
+                isOpen={showNotasModal}
+                onClose={() => setShowNotasModal(false)}
+                title={`Notas de ${alumnoData?.nombre} ${alumnoData?.apellido}`}
+            >
+                <div className="p-4">
+                    {alumnoNotas.length === 0 ? (
+                        <p className="text-gray-500 italic">No hay notas registradas.</p>
+                    ) : (
+                        <div className="max-h-96 overflow-y-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Curso</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nota</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Registrado Por</th>
+                                        <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {alumnoNotas.map((nota, idx) => {
+                                        const registradoPor = perfilesMap[nota.idUsuarioRegistro as any] || 'Desconocido';
+                                        return (
+                                            <tr key={nota.idNota || idx}>
+                                                <td className="px-4 py-2 text-sm">{nota.curso?.nombre}</td>
+                                                <td className="px-4 py-2 text-sm font-bold">{nota.nota}</td>
+                                                <td className="px-4 py-2 text-sm">{nota.tipoNota}</td>
+                                                <td className="px-4 py-2 text-sm">
+                                                    {nota.fechaRegistro?.split('T')[0].split('-').reverse().join('/')}
+                                                </td>
+                                                <td className="px-4 py-2 text-sm text-gray-600">
+                                                    {registradoPor}
+                                                </td>
+                                                <td className="px-4 py-2 text-sm text-center">
+                                                    <button
+                                                        onClick={() => handleEditarNota(nota)}
+                                                        className="text-blue-600 hover:text-blue-800 font-semibold text-xs uppercase"
+                                                    >
+                                                        Editar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={() => setShowNotasModal(false)}
+                            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
+            {showEditarNotaModal && selectedNota && (
+                <Modal
+                    isOpen={showEditarNotaModal}
+                    onClose={handleCancelNotaEdit}
+                    title="Editar Nota"
+                >
+                    <EditarNotaForm
+                        nota={selectedNota}
+                        onSave={handleSaveNotaEdit}
+                        onCancel={handleCancelNotaEdit}
                     />
                 </Modal>
             )}
