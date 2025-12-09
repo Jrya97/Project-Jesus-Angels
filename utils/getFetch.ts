@@ -114,6 +114,22 @@ export async function getNotas() {
     }
 }
 
+export async function getNotasByAlumno(idAlumno: string | number) {
+    try {
+        const res = await fetch(`${API_URL}/notas/alumno/${idAlumno}`);
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const dataNotas = await res.json();
+        return dataNotas;
+    } catch (error) {
+        console.error(`Error fetching notas del alumno ${idAlumno}:`, error);
+        return null;
+    }
+}
+
 export async function getPagos() {
     try {
         const res = await fetch(`${API_URL}/pagos`);

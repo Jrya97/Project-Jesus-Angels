@@ -27,6 +27,9 @@ export function useLogin() {
         if (userId) {
           const perfil = await getPerfilById(userId);
 
+          // Guardar userId en localStorage para uso posterior
+          localStorage.setItem('userId', userId.toString());
+
           if (perfil && perfil.rol === 'ADMIN') {
             window.location.href = "/admin";
           } else if (perfil && perfil.rol === 'PROFESOR') {

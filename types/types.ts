@@ -44,9 +44,18 @@ export type Usuario = {
 type Estado = 'ACTIVO' | 'RETIRADO' | 'ANULADO'
 export type Matricula = {
   idMatricula?: number;
-  alumno: { idAlumno: number };
-  grado: { idGrado: number };
-  anioLectivo: string;
+  alumno: {
+    idAlumno: number;
+    nombre?: string;
+    apellido?: string
+    dni?: string
+  };
+  grado: {
+    idGrado: number;
+    nombre?: string;
+    nivel?: string
+  };
+  anioLectivo: string | number;
   fechaMatricula: string;
   estado: Estado
 }
@@ -74,4 +83,36 @@ export type Pago = {
 export type curso = {
   idCurso?: number,
   nombre: string
+}
+
+type estadoAsistencia = 'PRESENTE' | 'AUSENTE'
+export type Asistencia = {
+  idAsistencia?: number,
+  alumno: {
+    idAlumno: number;
+    nombre?: string;
+    apellido?: string
+    dni?: string
+  },
+  fecha: string,
+  estado: estadoAsistencia
+}
+
+type tipoNota = 'EXAMEN' | 'TRABAJO' | 'TAREA' | 'BIMESTRAL1' | 'BIMESTRAL2' | 'BIMESTRAL3' | 'BIMESTRAL4' | 'FINAL'
+export type Nota = {
+  idNota?: number,
+  alumno: {
+    idAlumno: number;
+    nombre?: string;
+    apellido?: string
+    dni?: string
+  },
+  nota: number,
+  fechaRegistro: string,
+  curso: {
+    idCurso: number;
+    nombre?: string
+  }
+  tipoNota: tipoNota
+  idUsuarioRegistro?: UUID
 }
