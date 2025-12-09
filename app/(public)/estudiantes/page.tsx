@@ -5,8 +5,8 @@ import { VidaEscolar } from "../../components/view/vidaEscolar";
 
 export default function EstudiantesPage() {
   return (
-    <main id="estudiantes" className="relative w-full pt-10 font-sans">
-      <video src="/Fondo.mp4" autoPlay loop muted className="absolute -z-10 inset-0 w-full h-full object-cover"/>
+    <main id="estudiantes" className="relative w-full pt-10 font-sans animate-fade-in">
+      <video src="/Fondo.mp4" autoPlay loop muted className="absolute -z-10 inset-0 w-full h-full object-cover" />
       <section
         className="flex flex-col
             justify-center items-center
@@ -16,11 +16,12 @@ export default function EstudiantesPage() {
         <h2
           className="text-3xl sm:text-4xl md:text-6xl
             font-extrabold text-center
-          text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)]"
+          text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)]
+          animate-zoom-in"
         >
           Recursos para estudiantes
         </h2>
-        <p className="text-justify text-lg sm:text-xl md:text-2xl px-2 sm:px-6 md:px-10 max-w-[1250px] text-gray-600">
+        <p className="text-justify text-lg sm:text-xl md:text-2xl px-2 sm:px-6 md:px-10 max-w-[1250px] text-gray-600 animate-fade-up">
           En el{" "}
           <span
             className="bg-linear-to-r from-green-500 to-[#24a9e7]
@@ -43,11 +44,11 @@ export default function EstudiantesPage() {
           académico con entusiasmo y confianza.
         </p>
       </section>
-    <section>
-      <HerramientasAcademicas />
-      <ServiciosDeApoyo />
-      <VidaEscolar />
-    </section>
+      <section>
+        <HerramientasAcademicas />
+        <ServiciosDeApoyo />
+        <VidaEscolar />
+      </section>
     </main>
   );
 }

@@ -2,12 +2,13 @@ import { Formulario } from "../../components/view/formulario";
 
 export default function ContactosPage() {
   return (
-    <main  id="contactos" className="relative p-10 w-full font-sans flex flex-col items-center gap-10">
-      <video src="/Fondo.mp4" autoPlay loop muted className="absolute -z-10 inset-0 w-full h-full object-cover"/>
+    <main id="contactos" className="relative p-10 w-full font-sans flex flex-col items-center gap-10 animate-fade-in">
+      <video src="/Fondo.mp4" autoPlay loop muted className="absolute -z-10 inset-0 w-full h-full object-cover" />
       <h2
         className="text-3xl sm:text-4xl md:text-6xl
             font-extrabold text-center
-            text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)]"
+            text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)]
+            animate-zoom-in"
       >
         Contáctanos
       </h2>
@@ -17,7 +18,8 @@ export default function ContactosPage() {
       >
         <aside
           className="flex flex-col gap-6 justify-center items-center text-center 
-                     text-lg sm:text-xl md:text-2xl max-w-md text-gray-600"
+                     text-lg sm:text-xl md:text-2xl max-w-md text-gray-600
+                     animate-slide-left"
         >
           <h3
             className="text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.4)] font-semibold text-2xl sm:text-3xl md:text-4xl"
