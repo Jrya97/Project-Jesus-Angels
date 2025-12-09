@@ -1,8 +1,10 @@
 'use client';
 import { useAsistencia } from '@/hooks/useAsistencia';
+import { useRouter } from 'next/navigation';
 import { FaCheckCircle, FaTimesCircle, FaSave } from 'react-icons/fa';
 
 export default function AsistenciaPage() {
+  const router = useRouter();
   const {
     matriculasConAsistencia,
     grados,
@@ -44,7 +46,7 @@ export default function AsistenciaPage() {
       {/* Botón de Historial */}
       <section className="w-full max-w-6xl flex justify-end">
         <button
-          onClick={() => window.location.href = '/admin/asistencia/historial'}
+          onClick={() => router.push('/profesor/asistencia/historial')}
           className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-md flex items-center gap-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

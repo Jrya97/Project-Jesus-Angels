@@ -146,7 +146,7 @@ export default function HistorialAsistenciaPage() {
             {/* Header con botón de regreso */}
             <section className="w-full max-w-6xl">
                 <button
-                    onClick={() => router.push('/admin/asistencia')}
+                    onClick={() => router.push('/profesor/asistencia')}
                     className="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors flex items-center gap-2"
                 >
                     <FaArrowLeft />
