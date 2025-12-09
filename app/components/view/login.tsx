@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { LabelInput } from "../ui/labelInput";
 import { PrimaryButton } from "../ui/primaryButton";
 import { useLogin } from "../../../hooks/useLogin";
@@ -64,6 +66,12 @@ export default function Login() {
         >
           Iniciar Sesión
         </PrimaryButton>
+
+        <div className="w-full mt-4 flex justify-center">
+          <Link href="/mis-notas" className="text-white hover:text-indigo-200 underline font-medium">
+            ¿Eres alumno? Consulta tus notas aquí
+          </Link>
+        </div>
       </form>
     </div>
   );
